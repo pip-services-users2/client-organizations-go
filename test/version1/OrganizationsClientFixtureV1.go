@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/pip-services-users2/client-organizations-go/version1"
+	"github.com/pip-services3-gox/pip-services3-commons-gox/data"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,12 +17,11 @@ type OrganizationsClientFixtureV1 struct {
 }
 
 func NewOrganizationsClientFixtureV1(client version1.IOrganizationsClientV1) *OrganizationsClientFixtureV1 {
-
 	return &OrganizationsClientFixtureV1{
 		Client: client,
 		ORGANIZATION1: &version1.OrganizationV1{
-			Id:          "1",
-			Code:        "111",
+			Id:          data.IdGenerator.NextLong(),
+			Code:        "",
 			Name:        "Organization #1",
 			Description: "Test organization #1",
 			CreateTime:  time.Now(),
@@ -29,7 +29,7 @@ func NewOrganizationsClientFixtureV1(client version1.IOrganizationsClientV1) *Or
 			Active:      true,
 		},
 		ORGANIZATION2: &version1.OrganizationV1{
-			Id:          "2",
+			Id:          data.IdGenerator.NextLong(),
 			Code:        "",
 			Name:        "Organization #2",
 			Description: "Test organization #2",
@@ -107,7 +107,7 @@ func (c *OrganizationsClientFixtureV1) TestCrudOperations(t *testing.T) {
 	organization1 = organization
 
 	// Delete organization
-	_, err = c.Client.DeleteOrganizationById(context.Background(), "", organization1.Id)
+	organization, err = c.Client.DeleteOrganizationById(context.Background(), "", organization1.Id)
 	assert.Nil(t, err)
 
 	// Try to get deleted organization

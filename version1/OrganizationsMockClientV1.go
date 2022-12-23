@@ -8,17 +8,17 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/data"
 )
 
-type OrganizationsMemoryClientV1 struct {
+type OrganizationsMockClientV1 struct {
 	organizations []*OrganizationV1
 }
 
-func NewOrganizationsMemoryClientV1() *OrganizationsMemoryClientV1 {
-	return &OrganizationsMemoryClientV1{
+func NewOrganizationsMockClientV1() *OrganizationsMockClientV1 {
+	return &OrganizationsMockClientV1{
 		organizations: make([]*OrganizationV1, 0),
 	}
 }
 
-func (c *OrganizationsMemoryClientV1) matchString(value string, search string) bool {
+func (c *OrganizationsMockClientV1) matchString(value string, search string) bool {
 	if value == "" && search == "" {
 		return true
 	}
@@ -30,7 +30,7 @@ func (c *OrganizationsMemoryClientV1) matchString(value string, search string) b
 	return strings.Index(strings.ToLower(value), search) >= 0
 }
 
-func (c *OrganizationsMemoryClientV1) matchSearch(item *OrganizationV1, search string) bool {
+func (c *OrganizationsMockClientV1) matchSearch(item *OrganizationV1, search string) bool {
 	search = strings.ToLower(search)
 	if c.matchString(item.Id, search) {
 		return true
@@ -42,7 +42,7 @@ func (c *OrganizationsMemoryClientV1) matchSearch(item *OrganizationV1, search s
 	return false
 }
 
-func (c *OrganizationsMemoryClientV1) composeFilter(filter *data.FilterParams) func(*OrganizationV1) bool {
+func (c *OrganizationsMockClientV1) composeFilter(filter *data.FilterParams) func(*OrganizationV1) bool {
 	if filter == nil {
 		filter = data.NewEmptyFilterParams()
 	}
@@ -74,7 +74,7 @@ func (c *OrganizationsMemoryClientV1) composeFilter(filter *data.FilterParams) f
 	}
 }
 
-func (c *OrganizationsMemoryClientV1) GetOrganizations(ctx context.Context, correlationId string, filter *data.FilterParams, paging *data.PagingParams) (result data.DataPage[*OrganizationV1], err error) {
+func (c *OrganizationsMockClientV1) GetOrganizations(ctx context.Context, correlationId string, filter *data.FilterParams, paging *data.PagingParams) (result data.DataPage[*OrganizationV1], err error) {
 	filterFunc := c.composeFilter(filter)
 
 	organizations := make([]*OrganizationV1, 0)
@@ -88,7 +88,7 @@ func (c *OrganizationsMemoryClientV1) GetOrganizations(ctx context.Context, corr
 	return *data.NewDataPage[*OrganizationV1](organizations, len(organizations)), nil
 }
 
-func (c *OrganizationsMemoryClientV1) GetOrganizationById(ctx context.Context, correlationId string, id string) (result *OrganizationV1, err error) {
+func (c *OrganizationsMockClientV1) GetOrganizationById(ctx context.Context, correlationId string, id string) (result *OrganizationV1, err error) {
 	var organization *OrganizationV1
 
 	for _, org := range c.organizations {
@@ -101,7 +101,7 @@ func (c *OrganizationsMemoryClientV1) GetOrganizationById(ctx context.Context, c
 	return organization, nil
 }
 
-func (c *OrganizationsMemoryClientV1) GetOrganizationByCode(ctx context.Context, correlationId string, code string) (result *OrganizationV1, err error) {
+func (c *OrganizationsMockClientV1) GetOrganizationByCode(ctx context.Context, correlationId string, code string) (result *OrganizationV1, err error) {
 	var organization *OrganizationV1
 
 	for _, org := range c.organizations {
@@ -114,11 +114,11 @@ func (c *OrganizationsMemoryClientV1) GetOrganizationByCode(ctx context.Context,
 	return organization, nil
 }
 
-func (c *OrganizationsMemoryClientV1) GenerateCode(ctx context.Context, correlationId string, id string) (result string, err error) {
+func (c *OrganizationsMockClientV1) GenerateCode(ctx context.Context, correlationId string, id string) (result string, err error) {
 	return id, nil
 }
 
-func (c *OrganizationsMemoryClientV1) CreateOrganization(ctx context.Context, correlationId string, organization *OrganizationV1) (result *OrganizationV1, err error) {
+func (c *OrganizationsMockClientV1) CreateOrganization(ctx context.Context, correlationId string, organization *OrganizationV1) (result *OrganizationV1, err error) {
 	if organization.Id == "" {
 		organization.Id = data.IdGenerator.NextLong()
 	}
@@ -134,7 +134,7 @@ func (c *OrganizationsMemoryClientV1) CreateOrganization(ctx context.Context, co
 	return organization, nil
 }
 
-func (c *OrganizationsMemoryClientV1) UpdateOrganization(ctx context.Context, correlationId string, organization *OrganizationV1) (result *OrganizationV1, err error) {
+func (c *OrganizationsMockClientV1) UpdateOrganization(ctx context.Context, correlationId string, organization *OrganizationV1) (result *OrganizationV1, err error) {
 	index := -1
 
 	for i, org := range c.organizations {
@@ -153,7 +153,7 @@ func (c *OrganizationsMemoryClientV1) UpdateOrganization(ctx context.Context, co
 
 }
 
-func (c *OrganizationsMemoryClientV1) DeleteOrganizationById(ctx context.Context, correlationId string, id string) (result *OrganizationV1, err error) {
+func (c *OrganizationsMockClientV1) DeleteOrganizationById(ctx context.Context, correlationId string, id string) (result *OrganizationV1, err error) {
 	var organization *OrganizationV1
 
 	for _, org := range c.organizations {

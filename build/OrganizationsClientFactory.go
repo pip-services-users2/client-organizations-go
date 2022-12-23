@@ -17,13 +17,13 @@ func NewOrganizationsClientFactory() *OrganizationsClientFactory {
 	}
 
 	nullClientDescriptor := cref.NewDescriptor("service-organizations", "client", "null", "*", "1.0")
-	memoryClientDescriptor := cref.NewDescriptor("service-organizations", "client", "memory", "*", "1.0")
+	mockClientDescriptor := cref.NewDescriptor("service-organizations", "client", "mock", "*", "1.0")
 	cmdHttpClientDescriptor := cref.NewDescriptor("service-organizations", "client", "commandable-http", "*", "1.0")
 	cmdGrpcClientDescriptor := cref.NewDescriptor("service-organizations", "client", "commandable-grpc", "*", "1.0")
 	grpcClientDescriptor := cref.NewDescriptor("service-organizations", "client", "grpc", "*", "1.0")
 
 	c.RegisterType(nullClientDescriptor, clients1.NewOrganizationsNullClientV1)
-	c.RegisterType(memoryClientDescriptor, clients1.NewOrganizationsMemoryClientV1)
+	c.RegisterType(mockClientDescriptor, clients1.NewOrganizationsMockClientV1)
 	c.RegisterType(cmdHttpClientDescriptor, clients1.NewOrganizationsCommandableHttpClientV1)
 	c.RegisterType(cmdGrpcClientDescriptor, clients1.NewOrganizationsCommandableGrpcClientV1)
 	c.RegisterType(grpcClientDescriptor, clients1.NewOrganizationsGrpcClientV1)
